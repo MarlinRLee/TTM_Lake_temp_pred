@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime#, timedelta
 import time
+from tqdm import tqdm
 
 # Base URL for downloading files
 #BASE_URL = "https://apps.glerl.noaa.gov/erddap/files/GLSEA_GCS"
@@ -66,7 +67,7 @@ for lat in range(0, 83 - 3, 3):
         skip = None #Weird logic but it makes sense.
         for local_file_path, file_url in All_paths:
             with xr.open_dataset(local_file_path) as ds:
-                resampled = ds.coarsen(lat=10, lon=10, boundary="trim").mean()
+                resampled = ds.coarsen(lat=5, lon=5, boundary="trim").mean()
                 assert resampled.dims['lat'] == 83
                 assert resampled.dims['lon'] == 118
                 
@@ -93,3 +94,57 @@ for lat in range(0, 83 - 3, 3):
         df = pd.DataFrame(chunk_data, columns=["Time"] + column_names)
         data_path = os.path.join(ML_DATA_DIR, f"SST_{lat_values[0]:.2f}_{lon_values[0]:.2f}.csv")
         df.to_csv(data_path, index=False)
+
+
+import pandas as pd
+import glob
+import os
+
+# Define the input folder and output file
+input_directory = "/scratch.global/csci8523_group_7/sst_ml_data/"
+output_file = "combined_sst_data.csv"
+
+# Initialize an empty DataFrame for the combined data
+combined_df = pd.DataFrame()
+
+# Process all.csv, files in the directory
+for file_path in glob.glob(os.path.join(input_directory, "*.csv", )):
+    print(file_path)
+    # Extract latitude and longitude from the file name
+    file_name = os.path.basename(file_path)
+    lat, lon = map(float, file_name.replace(".csv", , "").split("_")[1:])
+    
+    # Load the.csv, and add Lat and Lon columns
+    df = pd.read(".csv", file_path)
+    df["Lat"] = lat
+    df["Lon"] = lon
+    
+    # Append to the combined DataFrame
+    #combined_df = pd.concat([combined_df, df], ignore_index=True)
+
+# Save the combined DataFrame
+#combined_df.to.csv, output_file, index=False)
+
+print(f"Combined.csv, saved to {output_file}")
+
+"""
+glerl = pd.read_csv("/scratch.global/csci8523_group_7/lc_data/processed_data/combined_LC_data.csv")
+glerl.rename(columns={'latitude': 'Lat', 'longitude': 'Lon'}, inplace=True)
+glerl['Time'] = pd.to_datetime(glerl['Time'])
+glerl_coords = np.array(list(zip(glerl['Lat'], glerl['Lon'], glerl['Time'].astype(np.int64) // 10**9)))
+
+output_path = os.path.join(ML_DATA_DIR, "SST_data.csv")
+all_data = []
+for local_file_path, file_url in tqdm(All_paths, desc="Processing files"):
+    print(f"Processing file: {local_file_path}", flush=True)
+    with xr.open_dataset(local_file_path) as ds:
+        # Ensure the dataset contains the necessary variables
+        if all(var in ds for var in ["time", "lat", "lon", "sst"]):
+            resampled = ds.coarsen(lat=10, lon=10, boundary="trim").mean()
+            # Convert to a DataFrame
+            df = ds.to_dataframe().reset_index()
+            df = pd.DataFrame(df)
+            df.rename(columns={'lat': 'Lat', 'lon': 'Lon', 'time': 'Time', 'sst': 'SST'}, inplace=True)
+            df.to_csv(output_path, mode='a', header=not os.path.exists(output_path), index=False)
+        else:
+            print(f"Skipping file {local_file_path}: Missing required variables", flush=True)"""

@@ -1,8 +1,8 @@
 #!/bin/bash -l        
-#SBATCH --time=6:00:00
+#SBATCH --time=3:00:00
 #SBATCH --ntasks=4       
 #SBATCH --cpus-per-task=1  
-#SBATCH --mem=5G
+#SBATCH --mem=100G
 #SBATCH --tmp=10g
 #SBATCH --mail-type=ALL  
 #SBATCH --mail-user=lee02328@umn.edu
@@ -36,7 +36,7 @@ conda activate GenAI2
 
 #conda install torchvision==0.16.1 -c pytorch -c nvidia -y
 
-#python -c "import torch; print(torch.__version__); import torchvision; print(torchvision.__version__)"
-
-
-python TTM_Zero_Few_Shot.py
+#python Zero_Shot.py
+#python Leave_Out_S_Finetune.py
+python Few_Shot.py
+#python Finetune.py
