@@ -1,3 +1,6 @@
 sst_data
 sst_ml_data
+ttm_finetuned_models
+lc_data
 *.out
+*.csv
