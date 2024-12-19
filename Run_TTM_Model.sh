@@ -38,5 +38,5 @@ conda activate GenAI2
 
 #python Zero_Shot.py
 #python Leave_Out_S_Finetune.py
-python Few_Shot.py
-#python Finetune.py
+#python Few_Shot.py
+python Finetune.py

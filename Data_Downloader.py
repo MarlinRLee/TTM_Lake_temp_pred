@@ -112,7 +112,7 @@ for file_path in glob.glob(os.path.join(input_directory, "*.csv", )):
     print(file_path)
     # Extract latitude and longitude from the file name
     file_name = os.path.basename(file_path)
-    lat, lon = map(float, file_name.replace(".csv", , "").split("_")[1:])
+    lat, lon = map(float, file_name.replace(".csv", "").split("_")[1:])
     
     # Load the.csv, and add Lat and Lon columns
     df = pd.read(".csv", file_path)

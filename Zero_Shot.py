@@ -49,7 +49,7 @@ zeroshot_trainer = Trainer(
     ),
 )
 zeroshot_output = zeroshot_trainer.evaluate(test_dataset)
-#print(zeroshot_output, flush = True)
+print(zeroshot_output, flush = True)
 
 plot_predictions(
     model=zeroshot_trainer.model,
@@ -59,5 +59,5 @@ plot_predictions(
     channel=0)
 
 
-output_file = os.path.join(OUT_DIR, "lat_lon_errors_zeroshot.csv")
-lat_lon_pred(data, tsp, zeroshot_trainer, output_file, context_length, forecast_length)
+#output_file = os.path.join(OUT_DIR, "lat_lon_errors_zeroshot.csv")
+#lat_lon_pred(data, tsp, zeroshot_trainer, output_file, context_length, forecast_length)

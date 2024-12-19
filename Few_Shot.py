@@ -16,7 +16,7 @@ forecast_length = 96
 
 data = load_data()
 tsp = load_tsp(context_length, forecast_length)
-split_params = {"train": .1, "test": .6}
+split_params = {"train": [0.45, 0.5], "valid": [0.5, 0.75], "test": [0.75, 1.0]}
 train_dataset, valid_dataset, test_dataset = get_datasets(
     tsp,
     data,

@@ -49,7 +49,7 @@ def load_tsp(context_length,
                                 "SST_lat1_lon0", "SST_lat1_lon1", "SST_lat1_lon2",
                                 "SST_lat2_lon0", "SST_lat2_lon1", "SST_lat2_lon2",
                             ], 
-            control_columns = ["lake_depth", "ice_cover", "water_level"]):
+            control_columns = []):#"lake_depth", "ice_cover", "water_level"
     
     column_specifiers = {
         "timestamp_column": timestamp_column,
@@ -110,8 +110,6 @@ def load_model(tsp,
                 "Number of params after freezing the backbone",
                 count_parameters(loaded_model),
             )
-        
-        
     else:
         loaded_model = get_model(
             TTM_MODEL_PATH,
